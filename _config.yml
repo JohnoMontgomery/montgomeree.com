@@ -3,3 +3,4 @@ description: Observations about the world.
 url: "https://montgomeree.com"
 permalink: /posts/:slug/
 markdown: kramdown
+baseurl: ""
