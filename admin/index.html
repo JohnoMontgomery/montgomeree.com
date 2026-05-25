@@ -7,159 +7,77 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #F8F7F3;
-      --ink: #1C1C19;
-      --muted: #8C8C84;
-      --rule: #D8D7D0;
-      --accent: #1C1C19;
-      --font: 'Roboto', sans-serif;
+      --bg: #F8F7F3; --ink: #1C1C19; --muted: #8C8C84;
+      --rule: #D8D7D0; --font: 'Roboto', sans-serif;
     }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--ink);
-      min-height: 100vh;
-      padding: 2rem 1.5rem;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .wrapper { max-width: 720px; margin: 0 auto; }
-
-    /* ── Screens ── */
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); min-height: 100vh; padding: 2rem 1.5rem; -webkit-font-smoothing: antialiased; }
+    .wrapper { max-width: 760px; margin: 0 auto; }
     .screen { display: none; }
     .screen.active { display: block; }
 
-    /* ── Login ── */
-    .login-box {
-      max-width: 360px;
-      margin: 8rem auto;
-    }
+    /* Login */
+    .login-box { max-width: 360px; margin: 8rem auto; }
+    .login-box h1 { font-size: 2rem; font-weight: 300; margin-bottom: 0.25rem; }
+    .login-box p { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; }
 
-    .login-box h1 {
-      font-size: 2rem;
-      font-weight: 300;
-      margin-bottom: 0.25rem;
-    }
-
-    .login-box p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      margin-bottom: 2rem;
-    }
-
-    /* ── Setup ── */
+    /* Setup */
     .setup-box { max-width: 480px; margin: 4rem auto; }
     .setup-box h2 { font-weight: 400; font-size: 1.3rem; margin-bottom: 0.5rem; }
     .setup-box p { color: var(--muted); font-size: 0.85rem; margin-bottom: 2rem; line-height: 1.6; }
 
-    /* ── Header bar ── */
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: 2rem;
-    }
+    /* Top bar */
+    .topbar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); margin-bottom: 2rem; }
+    .topbar h1 { font-size: 1.1rem; font-weight: 400; }
+    .topbar-actions { display: flex; gap: 0.75rem; align-items: center; }
 
-    .admin-header h1 { font-size: 1.2rem; font-weight: 400; }
-    .admin-header span { font-size: 0.75rem; color: var(--muted); }
+    /* Posts list */
+    .posts-list { list-style: none; }
+    .post-row { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); gap: 1rem; }
+    .post-row:first-child { padding-top: 0; }
+    .post-info { flex: 1; }
+    .post-row-title { font-weight: 400; font-size: 1rem; margin-bottom: 0.2rem; }
+    .post-row-meta { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .post-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+    .empty-state { padding: 3rem 0; color: var(--muted); font-size: 0.9rem; }
 
-    /* ── Form ── */
+    /* Form */
     .field { margin-bottom: 1.5rem; }
-
-    label {
-      display: block;
-      font-size: 0.72rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-      font-weight: 500;
+    label { display: block; font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; font-weight: 500; }
+    input[type="text"], input[type="date"], input[type="password"], textarea {
+      width: 100%; background: white; border: 1px solid var(--rule); border-radius: 3px;
+      padding: 0.6rem 0.75rem; font-family: var(--font); font-size: 1rem; color: var(--ink); outline: none; transition: border-color 0.15s;
     }
-
-    input[type="text"],
-    input[type="date"],
-    input[type="password"],
-    textarea,
-    select {
-      width: 100%;
-      background: white;
-      border: 1px solid var(--rule);
-      border-radius: 3px;
-      padding: 0.6rem 0.75rem;
-      font-family: var(--font);
-      font-size: 1rem;
-      color: var(--ink);
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--ink);
-    }
-
+    input:focus, textarea:focus { border-color: var(--ink); }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    textarea#body { height: 460px; resize: vertical; font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.7; }
 
-    textarea#body {
-      height: 480px;
-      resize: vertical;
-      font-family: 'Roboto Mono', 'Courier New', monospace;
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-block;
-      padding: 0.65rem 1.5rem;
-      font-family: var(--font);
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
-
-    .btn:hover { opacity: 0.8; }
+    /* Buttons */
+    .btn { display: inline-block; padding: 0.55rem 1.2rem; font-family: var(--font); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em; border: none; border-radius: 3px; cursor: pointer; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.75; }
     .btn-primary { background: var(--ink); color: white; }
     .btn-secondary { background: white; color: var(--ink); border: 1px solid var(--rule); }
-    .btn-danger { background: white; color: #c0392b; border: 1px solid #e0c0be; font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+    .btn-danger { background: white; color: #c0392b; border: 1px solid #e0c0be; }
+    .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.75rem; }
 
-    .actions {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--rule);
-      margin-top: 1.5rem;
-    }
-
+    .actions { display: flex; gap: 0.75rem; align-items: center; padding-top: 1.5rem; border-top: 1px solid var(--rule); margin-top: 1.5rem; }
     .actions .spacer { flex: 1; }
 
-    /* ── Status ── */
-    .status {
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 3px;
-      font-size: 0.85rem;
-      display: none;
-    }
-
+    /* Status */
+    .status { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 3px; font-size: 0.85rem; display: none; }
     .status.success { background: #e8f5e9; color: #2e7d32; display: block; }
     .status.error { background: #fdecea; color: #c62828; display: block; }
     .status.loading { background: #e3f2fd; color: #1565c0; display: block; }
+
+    .breadcrumb { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; }
+    .breadcrumb a:hover { color: var(--ink); }
   </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- ── Login Screen ── -->
+  <!-- Login -->
   <div id="screen-login" class="screen active">
     <div class="login-box">
       <h1>montgomeree</h1>
@@ -173,12 +91,11 @@
     </div>
   </div>
 
-  <!-- ── Setup Screen ── -->
+  <!-- Setup -->
   <div id="screen-setup" class="screen">
     <div class="setup-box">
       <h2>Connect to GitHub</h2>
-      <p>This is a one-time setup. Your token is stored in this browser only — never in the repo.</p>
-
+      <p>One-time setup. Your token is stored in this browser only — never in the repo.</p>
       <div class="field">
         <label>GitHub Personal Access Token</label>
         <input type="password" id="setup-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
@@ -198,65 +115,71 @@
     </div>
   </div>
 
-  <!-- ── Write Screen ── -->
+  <!-- Posts List -->
+  <div id="screen-posts" class="screen">
+    <div class="topbar">
+      <h1>montgomeree admin</h1>
+      <div class="topbar-actions">
+        <button class="btn btn-danger btn-sm" onclick="resetSetup()">Reset config</button>
+        <button class="btn btn-primary" onclick="showNew()">+ New Post</button>
+      </div>
+    </div>
+    <div id="posts-loading" style="color:var(--muted);font-size:0.9rem;">Loading posts...</div>
+    <ul class="posts-list" id="posts-list"></ul>
+    <div id="posts-status" class="status"></div>
+  </div>
+
+  <!-- Write / Edit -->
   <div id="screen-write" class="screen">
-    <div class="admin-header">
-      <h1>New Post</h1>
-      <button class="btn btn-danger" onclick="resetSetup()">Reset GitHub config</button>
+    <div class="topbar">
+      <div class="breadcrumb">
+        <a onclick="showPosts()">← All posts</a>
+      </div>
+      <div class="topbar-actions">
+        <span id="edit-label" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
     </div>
 
     <div class="row">
       <div class="field">
         <label>Title</label>
-        <input type="text" id="title" placeholder="The Coin on Its Edge">
+        <input type="text" id="title" placeholder="Post title">
       </div>
       <div class="field">
         <label>Date</label>
         <input type="date" id="date">
       </div>
     </div>
-
     <div class="field">
       <label>Category</label>
       <input type="text" id="category" placeholder="e.g. Theological, Observations, Practitioner-Researcher">
     </div>
-
     <div class="field">
       <label>Body (Markdown)</label>
-      <textarea id="body" placeholder="Write your post here in Markdown..."></textarea>
+      <textarea id="body" placeholder="Write in Markdown..."></textarea>
     </div>
 
     <div class="actions">
-      <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+      <button class="btn btn-danger btn-sm" id="delete-btn" onclick="deletePost()" style="display:none">Delete post</button>
       <div class="spacer"></div>
+      <button class="btn btn-secondary" onclick="showPosts()">Cancel</button>
       <button class="btn btn-primary" onclick="publish()">Publish →</button>
     </div>
-
     <div id="publish-status" class="status"></div>
   </div>
 
 </div>
-
 <script>
-  // ── Config ──────────────────────────────────────────
-  // CHANGE THIS PASSWORD to whatever you want
   const ADMIN_PASSWORD = 'montgomeree2026';
-  // ────────────────────────────────────────────────────
+  let editingFile = null;
+  let editingSha = null;
 
-  // Set today's date as default
   document.getElementById('date').valueAsDate = new Date();
 
-  // Determine which screen to show on load
   function init() {
-    const loggedIn = sessionStorage.getItem('admin_auth');
-    if (!loggedIn) { show('screen-login'); return; }
-
-    const token = localStorage.getItem('gh_token');
-    const owner = localStorage.getItem('gh_owner');
-    const repo  = localStorage.getItem('gh_repo');
-    if (!token || !owner || !repo) { show('screen-setup'); return; }
-
-    show('screen-write');
+    if (!sessionStorage.getItem('admin_auth')) { show('screen-login'); return; }
+    if (!localStorage.getItem('gh_token')) { show('screen-setup'); return; }
+    showPosts();
   }
 
   function show(id) {
@@ -264,10 +187,8 @@
     document.getElementById(id).classList.add('active');
   }
 
-  // ── Login ────────────────────────────────────────────
   function login() {
-    const pw = document.getElementById('login-password').value;
-    if (pw === ADMIN_PASSWORD) {
+    if (document.getElementById('login-password').value === ADMIN_PASSWORD) {
       sessionStorage.setItem('admin_auth', '1');
       document.getElementById('login-error').style.display = 'none';
       init();
@@ -276,34 +197,128 @@
     }
   }
 
-  // ── Setup ────────────────────────────────────────────
   function saveSetup() {
     const token = document.getElementById('setup-token').value.trim();
     const owner = document.getElementById('setup-owner').value.trim();
     const repo  = document.getElementById('setup-repo').value.trim();
     const err   = document.getElementById('setup-error');
-
-    if (!token || !owner || !repo) {
-      err.textContent = 'All fields are required.';
-      err.className = 'status error';
-      return;
-    }
-
+    if (!token || !owner || !repo) { err.textContent = 'All fields required.'; err.className = 'status error'; return; }
     localStorage.setItem('gh_token', token);
     localStorage.setItem('gh_owner', owner);
     localStorage.setItem('gh_repo', repo);
-    show('screen-write');
+    showPosts();
   }
 
   function resetSetup() {
     if (!confirm('Reset GitHub config?')) return;
-    localStorage.removeItem('gh_token');
-    localStorage.removeItem('gh_owner');
-    localStorage.removeItem('gh_repo');
+    ['gh_token','gh_owner','gh_repo'].forEach(k => localStorage.removeItem(k));
     show('screen-setup');
   }
 
-  // ── Publish ──────────────────────────────────────────
+  function ghHeaders() {
+    return { 'Authorization': `token ${localStorage.getItem('gh_token')}`, 'Content-Type': 'application/json' };
+  }
+
+  function ghBase() {
+    return `https://api.github.com/repos/${localStorage.getItem('gh_owner')}/${localStorage.getItem('gh_repo')}`;
+  }
+
+  async function showPosts() {
+    show('screen-posts');
+    const list = document.getElementById('posts-list');
+    const loading = document.getElementById('posts-loading');
+    const status = document.getElementById('posts-status');
+    list.innerHTML = '';
+    loading.style.display = 'block';
+    status.className = 'status';
+
+    try {
+      const res = await fetch(`${ghBase()}/contents/_posts`, { headers: ghHeaders() });
+      loading.style.display = 'none';
+      if (res.status === 404) {
+        list.innerHTML = '<div class="empty-state">No posts yet. Create your first one.</div>';
+        return;
+      }
+      const files = await res.json();
+      if (!files.length) {
+        list.innerHTML = '<div class="empty-state">No posts yet.</div>';
+        return;
+      }
+      files.sort((a,b) => b.name.localeCompare(a.name));
+      files.forEach(f => {
+        const parts = f.name.replace('.md','').split('-');
+        const date = parts.slice(0,3).join('-');
+        const titleSlug = parts.slice(3).join(' ');
+        const li = document.createElement('li');
+        li.className = 'post-row';
+        li.innerHTML = `
+          <div class="post-info">
+            <div class="post-row-title">${titleSlug}</div>
+            <div class="post-row-meta">${date} &nbsp;·&nbsp; ${f.name}</div>
+          </div>
+          <div class="post-row-actions">
+            <button class="btn btn-secondary btn-sm" onclick="editPost('${f.path}', '${f.sha}')">Edit</button>
+          </div>`;
+        list.appendChild(li);
+      });
+    } catch(e) {
+      loading.style.display = 'none';
+      status.textContent = 'Error loading posts: ' + e.message;
+      status.className = 'status error';
+    }
+  }
+
+  function showNew() {
+    editingFile = null;
+    editingSha = null;
+    document.getElementById('title').value = '';
+    document.getElementById('category').value = '';
+    document.getElementById('body').value = '';
+    document.getElementById('date').valueAsDate = new Date();
+    document.getElementById('edit-label').textContent = 'New post';
+    document.getElementById('delete-btn').style.display = 'none';
+    document.getElementById('publish-status').className = 'status';
+    show('screen-write');
+  }
+
+  async function editPost(path, sha) {
+    show('screen-write');
+    document.getElementById('edit-label').textContent = 'Editing...';
+    document.getElementById('delete-btn').style.display = 'none';
+    document.getElementById('publish-status').className = 'status';
+
+    try {
+      const res = await fetch(`${ghBase()}/contents/${path}`, { headers: ghHeaders() });
+      const data = await res.json();
+      const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+
+      editingFile = path;
+      editingSha = data.sha;
+
+      // Parse front matter
+      const fmMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+      if (fmMatch) {
+        const fm = fmMatch[1];
+        const body = fmMatch[2].trim();
+        const titleMatch = fm.match(/title:\s*"?([^"\n]+)"?/);
+        const dateMatch  = fm.match(/date:\s*(\S+)/);
+        const catMatch   = fm.match(/category:\s*(.+)/);
+        document.getElementById('title').value    = titleMatch ? titleMatch[1] : '';
+        document.getElementById('date').value     = dateMatch  ? dateMatch[1]  : '';
+        document.getElementById('category').value = catMatch   ? catMatch[1].trim() : '';
+        document.getElementById('body').value     = body;
+      } else {
+        document.getElementById('body').value = content;
+      }
+
+      document.getElementById('edit-label').textContent = 'Editing post';
+      document.getElementById('delete-btn').style.display = 'inline-block';
+    } catch(e) {
+      document.getElementById('publish-status').textContent = 'Error loading post: ' + e.message;
+      document.getElementById('publish-status').className = 'status error';
+    }
+  }
+
   async function publish() {
     const title    = document.getElementById('title').value.trim();
     const date     = document.getElementById('date').value;
@@ -317,73 +332,61 @@
       return;
     }
 
-    const token = localStorage.getItem('gh_token');
-    const owner = localStorage.getItem('gh_owner');
-    const repo  = localStorage.getItem('gh_repo');
+    const slug = title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').substring(0,60);
+    const filename = editingFile || `_posts/${date}-${slug}.md`;
 
-    // Build filename
-    const slug = title.toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .substring(0, 60);
-    const filename = `${date}-${slug}.md`;
-
-    // Build front matter
-    const frontmatter = [
-      '---',
-      `title: "${title}"`,
-      `date: ${date}`,
-      category ? `category: ${category}` : null,
-      'layout: post',
-      '---',
-      '',
-      body
+    const frontmatter = ['---', `title: "${title}"`, `date: ${date}`,
+      category ? `category: ${category}` : null, 'layout: post', '---', '', body
     ].filter(l => l !== null).join('\n');
 
-    // Encode to base64
     const encoded = btoa(unescape(encodeURIComponent(frontmatter)));
 
-    status.textContent = 'Publishing...';
+    status.textContent = editingFile ? 'Saving...' : 'Publishing...';
     status.className = 'status loading';
 
-    try {
-      const res = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contents/_posts/${filename}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Add post: ${title}`,
-            content: encoded,
-            branch: 'main'
-          })
-        }
-      );
+    const payload = { message: `${editingFile ? 'Update' : 'Add'} post: ${title}`, content: encoded, branch: 'main' };
+    if (editingSha) payload.sha = editingSha;
 
+    try {
+      const res = await fetch(`${ghBase()}/contents/${filename}`, {
+        method: 'PUT', headers: ghHeaders(), body: JSON.stringify(payload)
+      });
       if (res.ok) {
-        status.textContent = `✓ Published. "${title}" is live in about 60 seconds.`;
+        status.textContent = `✓ ${editingFile ? 'Updated' : 'Published'}. Live in ~60 seconds.`;
         status.className = 'status success';
-        clearForm();
+        editingFile = null; editingSha = null;
       } else {
-        const data = await res.json();
-        status.textContent = `Error: ${data.message || 'GitHub API error'}`;
+        const d = await res.json();
+        status.textContent = 'Error: ' + (d.message || 'GitHub API error');
         status.className = 'status error';
       }
-    } catch (e) {
-      status.textContent = `Network error: ${e.message}`;
+    } catch(e) {
+      status.textContent = 'Network error: ' + e.message;
       status.className = 'status error';
     }
   }
 
-  function clearForm() {
-    document.getElementById('title').value = '';
-    document.getElementById('category').value = '';
-    document.getElementById('body').value = '';
-    document.getElementById('date').valueAsDate = new Date();
+  async function deletePost() {
+    if (!editingFile || !editingSha) return;
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    const status = document.getElementById('publish-status');
+    status.textContent = 'Deleting...';
+    status.className = 'status loading';
+    try {
+      const res = await fetch(`${ghBase()}/contents/${editingFile}`, {
+        method: 'DELETE', headers: ghHeaders(),
+        body: JSON.stringify({ message: 'Delete post', sha: editingSha, branch: 'main' })
+      });
+      if (res.ok) { showPosts(); }
+      else {
+        const d = await res.json();
+        status.textContent = 'Error: ' + (d.message || 'GitHub API error');
+        status.className = 'status error';
+      }
+    } catch(e) {
+      status.textContent = 'Network error: ' + e.message;
+      status.className = 'status error';
+    }
   }
 
   init();
